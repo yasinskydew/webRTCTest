@@ -5,7 +5,7 @@ const app = express();
 let broadcaster;
 const port = process.env.PORT || 4000;
 
-const http = require("https");
+const http = require("http");
 const server = http.createServer(app);
 
 const io = socket(server);

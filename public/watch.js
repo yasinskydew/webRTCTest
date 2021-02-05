@@ -1,64 +1,47 @@
-let peerConnection;
-const config = {
-  iceServers: [
-      { 
-        "urls": "stun:stun.l.google.com:19302",
-      },
-      // { 
-      //   "urls": "turn:TURN_IP?transport=tcp",
-      //   "username": "TURN_USERNAME",
-      //   "credential": "TURN_CREDENTIALS"
-      // }
-  ]
-};
-
-const socket = io.connect(window.location.origin);
-const video = document.querySelector("video");
+const video = document.getElementById("watcher");
 const enableAudioButton = document.querySelector("#enable-audio");
-
+const idDate = Date.now();
 enableAudioButton.addEventListener("click", enableAudio)
 
-socket.on("offer", (id, description) => {
+socket1.on("offer", (id, description) => {
   peerConnection = new RTCPeerConnection(config);
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(() => {
-      socket.emit("answer", id, peerConnection.localDescription);
+      console.log('answer')
+      socket1.emit("answer", id, peerConnection.localDescription);
     });
   peerConnection.ontrack = event => {
+    console.log('vent.streams[0]')
     video.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
-      socket.emit("candidate", id, event.candidate);
+      console.log('candidate')
+      socket1.emit("candidate", id, event.candidate);
     }
   };
 });
-
-
-socket.on("candidate", (id, candidate) => {
+socket1.on("candidate", (id, candidate) => {
   peerConnection
     .addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));
 });
-
-socket.on("connect", () => {
-  socket.emit("watcher");
+socket1.on("connect", () => {
+  socket1.emit("watcher");
 });
-
-socket.on("broadcaster", () => {
-  socket.emit("watcher");
+socket1.on("broadcaster", () => {
+  socket1.emit("watcher");
 });
-
-socket.on("disconnectPeer", () => {
+socket1.on("disconnectPeer", () => {
   peerConnection.close();
 });
-
-window.onunload = window.onbeforeunload = () => {
-  socket.close();
-};
+//
+// window.onunload = window.onbeforeunload = () => {
+//   socket.close();
+// };
 
 function enableAudio() {
   console.log("Enabling audio")

@@ -1,24 +1,8 @@
-const peerConnections = {};
-const config = {
-  iceServers: [
-    { 
-      "urls": "stun:stun.l.google.com:19302",
-    },
-    // { 
-    //   "urls": "turn:TURN_IP?transport=tcp",
-    //   "username": "TURN_USERNAME",
-    //   "credential": "TURN_CREDENTIALS"
-    // }
-  ]
-};
-
-const socket = io.connect(window.location.origin);
-
-socket.on("answer", (id, description) => {
+socket2.on("answer", (id, description) => {
   peerConnections[id].setRemoteDescription(description);
 });
 
-socket.on("watcher", id => {
+socket2.on("watcher", id => {
   const peerConnection = new RTCPeerConnection(config);
   peerConnections[id] = peerConnection;
 
@@ -27,7 +11,7 @@ socket.on("watcher", id => {
 
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
-      socket.emit("candidate", id, event.candidate);
+      socket2.emit("candidate", id, event.candidate);
     }
   };
 
@@ -35,25 +19,25 @@ socket.on("watcher", id => {
     .createOffer()
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(() => {
-      socket.emit("offer", id, peerConnection.localDescription);
+      socket2.emit("offer", id, peerConnection.localDescription);
     });
 });
 
-socket.on("candidate", (id, candidate) => {
+socket2.on("candidate", (id, candidate) => {
   peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
-socket.on("disconnectPeer", id => {
+socket2.on("disconnectPeer", id => {
   peerConnections[id].close();
   delete peerConnections[id];
 });
 
-window.onunload = window.onbeforeunload = () => {
-  socket.close();
-};
+// window.onunload = window.onbeforeunload = () => {
+//   socket.close();
+// };
 
 // Get camera and microphone
-const videoElement = document.querySelector("video");
+const videoElement = document.getElementById("broadcast");
 const audioSelect = document.querySelector("select#audioSource");
 const videoSelect = document.querySelector("select#videoSource");
 
@@ -110,7 +94,7 @@ function gotStream(stream) {
     option => option.text === stream.getVideoTracks()[0].label
   );
   videoElement.srcObject = stream;
-  socket.emit("broadcaster");
+  socket2.emit("broadcaster");
 }
 
 function handleError(error) {

@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Viewer</title>
     <meta charset="UTF-8" />
     <link href="/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <video playsinline autoplay muted></video>
+  <section class="select">
+    <label for="audioSource">Audio source: </label>
+    <select id="audioSource"></select>
+  </section>
+  <section class="select">
+    <label for="videoSource">Video source: </label>
+    <select id="videoSource"></select>
+  </section>
+  <video id="broadcast" playsinline autoplay muted></video>
+  <video id="watcher" playsinline autoplay muted></video>
     <button id="enable-audio">Enable audio</button>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/conf.js"></script>
     <script src="/watch.js"></script>
+    <script src="/broadcast.js"></script>
   </body>
 </html>

@@ -14,7 +14,14 @@ app.use(express.static(__dirname + "/public"));
 
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
-  RTCMultiConnectionServer.addSocket(socket);
+  RTCMultiConnectionServer.addSocket(socket, {
+    "socketURL": "https://webrtc.musio.io",
+    "dirPath": "",
+    "socketMessageEvent": "RTCMultiConnection-Message",
+    "socketCustomEvent": "RTCMultiConnection-Custom-Message",
+    "enableLogs": "false",
+    "autoRebootServerOnFailure": "false",
+  });
   socket.on("broadcaster", () => {
     console.log("broadcaster")
     broadcaster = socket.id;

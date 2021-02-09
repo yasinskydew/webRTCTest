@@ -1,5 +1,6 @@
 const express = require("express");
 const socket = require("socket.io");
+const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 const app = express();
 
 let broadcaster;
@@ -13,6 +14,7 @@ app.use(express.static(__dirname + "/public"));
 
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
+  RTCMultiConnectionServer.addSocket(socket);
   socket.on("broadcaster", () => {
     console.log("broadcaster")
     broadcaster = socket.id;

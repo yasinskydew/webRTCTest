@@ -19,8 +19,12 @@ io.sockets.on("connection", socket => {
     "dirPath": "",
     "socketMessageEvent": "RTCMultiConnection-Message",
     "socketCustomEvent": "RTCMultiConnection-Custom-Message",
+    "port": "9001",
     "enableLogs": "false",
     "autoRebootServerOnFailure": "false",
+    "enableAdmin": "false",
+    "adminUserName": "username",
+    "adminPassword": "password"
   });
   socket.on("broadcaster", () => {
     console.log("broadcaster")

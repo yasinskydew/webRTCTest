@@ -15,16 +15,16 @@ app.use(express.static(__dirname + "/public"));
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
   RTCMultiConnectionServer.addSocket(socket, {
-    "socketURL": "/",
-    "dirPath": "",
-    "socketMessageEvent": "RTCMultiConnection-Message",
-    "socketCustomEvent": "RTCMultiConnection-Custom-Message",
-    "port": "3000",
-    "enableLogs": "false",
-    "autoRebootServerOnFailure": "false",
-    "enableAdmin": "false",
-    "adminUserName": "username",
-    "adminPassword": "password"
+    socketURL: 'https://webrtc.musio.io/',
+    dirPath: "",
+    socketMessageEvent: 'RTCMultiConnection-Message',
+    socketCustomEvent: 'RTCMultiConnection-Custom-Message',
+    port: '9001',
+    enableLogs: 'false',
+    autoRebootServerOnFailure: false,
+    enableAdmin: false,
+    adminUserName: 'username',
+    adminPassword: 'password',
   });
   // socket.on("broadcaster", () => {
   //   console.log("broadcaster")

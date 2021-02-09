@@ -8,39 +8,6 @@
   <script src="menu.js"></script>
 </head>
 <body>
-<header>
-  <nav>
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a href="/demos/">Demos</a>
-    </li>
-    <li>
-      <a href="https://www.rtcmulticonnection.org/docs/getting-started/">Getting Started</a>
-    </li>
-    <li>
-      <a href="https://www.rtcmulticonnection.org/FAQ/">FAQ</a>
-    </li>
-    <li>
-      <a href="https://www.youtube.com/playlist?list=PLPRQUXAnRydKdyun-vjKPMrySoow2N4tl">YouTube</a>
-    </li>
-    <li>
-      <a href="https://github.com/muaz-khan/RTCMultiConnection/wiki">Wiki</a>
-    </li>
-    <li>
-      <a href="https://github.com/muaz-khan/RTCMultiConnection">Github</a>
-    </li>
-  </nav>
-</header>
-
-<h1>
-  Vuejs Video Conferencing using RTCMultiConnection
-  <p class="no-mobile">
-    Multi-user (many-to-many) video chat using mesh networking model.
-  </p>
-</h1>
-
 <section class="make-center">
   <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
   <button id="open-room">Open Room</button>
@@ -58,7 +25,7 @@
   <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
 </section>
 
-<script src="RTCMultiConnection.min.js"></script>
+<script src="RTCMultiConnection.js"></script>
 <script src="./node_modules/webrtc-adapter/out/adapter.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

@@ -14,12 +14,23 @@ const jsonPath = {
   logs: 'logs.json'
 };
 
-const BASH_COLORS_HELPER = RTCMultiConnectionServer.BASH_COLORS_HELPER;
-const getValuesFromConfigJson = RTCMultiConnectionServer.getValuesFromConfigJson;
-const getBashParameters = RTCMultiConnectionServer.getBashParameters;
-
-var config = getValuesFromConfigJson(jsonPath);
-config = getBashParameters(config, BASH_COLORS_HELPER);
+const config = {
+  "socketURL": 'https://webrtc.musio.io/',
+  "dirPath": "",
+  "homePage": "",
+  "socketMessageEvent": "RTCMultiConnection-Message",
+  "socketCustomEvent": "RTCMultiConnection-Custom-Message",
+  "port": "9001",
+  "enableLogs": "false",
+  "autoRebootServerOnFailure": "false",
+  "isUseHTTPs": "true",
+  "sslKey": path.join(__dirname, 'ssl', 'private.key'),
+  "sslCert": path.join(__dirname, 'ssl', 'certificate.crt'),
+  "sslCabundle": "",
+  "enableAdmin": "false",
+  "adminUserName": "username",
+  "adminPassword": "password"
+}
 
 // if user didn't modifed "PORT" object
 // then read value from "config.json"
@@ -33,9 +44,6 @@ if(isUseHTTPs === false) {
 function serverHandler(request, response) {
   // to make sure we always get valid info from json file
   // even if external codes are overriding it
-  config = getValuesFromConfigJson(jsonPath);
-  config = getBashParameters(config, BASH_COLORS_HELPER);
-
   response.writeHead(200, {
     'Content-Type': 'text/plain'
   });
@@ -59,21 +67,21 @@ if (isUseHTTPs) {
   let pfx = false;
 
   if (!fs.existsSync(config.sslKey)) {
-    console.log(BASH_COLORS_HELPER.getRedFG(), 'sslKey:\t ' + config.sslKey + ' does not exist.');
+    console.log('sslKey:\t ' + config.sslKey + ' does not exist.');
   } else {
     pfx = config.sslKey.indexOf('.pfx') !== -1;
     options.key = fs.readFileSync(config.sslKey);
   }
 
   if (!fs.existsSync(config.sslCert)) {
-    console.log(BASH_COLORS_HELPER.getRedFG(), 'sslCert:\t ' + config.sslCert + ' does not exist.');
+    console.log('sslCert:\t ' + config.sslCert + ' does not exist.');
   } else {
     options.cert = fs.readFileSync(config.sslCert);
   }
 
   if (config.sslCabundle) {
     if (!fs.existsSync(config.sslCabundle)) {
-      console.log(BASH_COLORS_HELPER.getRedFG(), 'sslCabundle:\t ' + config.sslCabundle + ' does not exist.');
+      console.log('sslCabundle:\t ' + config.sslCabundle + ' does not exist.');
     }
 
     options.ca = fs.readFileSync(config.sslCabundle);

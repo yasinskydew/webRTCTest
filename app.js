@@ -8,7 +8,11 @@ const app = express();
 app.use(cors());
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
-const io = socket(server);
+const io = socket(server, {
+  cors: {
+    origin: '*',
+  }
+});
 
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {

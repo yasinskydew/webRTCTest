@@ -3,7 +3,7 @@ const socket = require("socket.io");
 const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 const cors = require('cors');
 const path = require('path');
-const http = require("https");
+const http = require("http");
 const app = express();
 app.use(cors());
 app.use((req, res, next) => {
@@ -11,11 +11,7 @@ app.use((req, res, next) => {
   next();
 });
 const port = process.env.PORT || 3000;
-const credentials = {
-  key: path.join(__dirname, 'ssl', 'private.key'),
-  cert: path.join(__dirname, 'ssl', 'certificate.crt')
-};
-const server = http.createServer(credentials, app);
+const server = http.createServer(app);
 const io = socket(server, {
   cors: {
     origin: '*',

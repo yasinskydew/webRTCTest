@@ -22,7 +22,7 @@ io.sockets.on("connection", socket => {
     socketMessageEvent: 'RTCMultiConnection-Message',
     socketCustomEvent: 'RTCMultiConnection-Custom-Message',
     port: '9001',
-    enableLogs: false,
+    enableLogs: true,
     isUseHTTPs: true,
     sslKey: path.join(__dirname, 'ssl', 'private.key'),
     sslCert: path.join(__dirname, 'ssl', 'certificate.crt'),

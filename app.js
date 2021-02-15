@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = socket(server);
 app.use(cors());
-console.log(fs.existsSync(path.join(__dirname, 'ssl', 'private.key')))
+
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
   RTCMultiConnectionServer.addSocket(socket, {

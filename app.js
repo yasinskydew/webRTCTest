@@ -21,7 +21,7 @@ const io = socket(server, {
 io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
   RTCMultiConnectionServer.addSocket(socket, {
-    socketURL: 'https://webrtc.musio.io/',
+    socketURL: '/',
     dirPath: "",
     socketMessageEvent: 'RTCMultiConnection-Message',
     socketCustomEvent: 'RTCMultiConnection-Custom-Message',

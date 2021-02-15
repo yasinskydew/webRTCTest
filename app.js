@@ -9,11 +9,6 @@ const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 let PORT = 9001;
 let isUseHTTPs = true;
 
-const jsonPath = {
-  config: 'config.json',
-  logs: 'logs.json'
-};
-
 const config = {
   "socketURL": 'https://webrtc.musio.io/',
   "dirPath": "",
@@ -21,7 +16,7 @@ const config = {
   "socketMessageEvent": "RTCMultiConnection-Message",
   "socketCustomEvent": "RTCMultiConnection-Custom-Message",
   "port": "9001",
-  "enableLogs": "false",
+  "enableLogs": "true",
   "autoRebootServerOnFailure": "false",
   "isUseHTTPs": "true",
   "sslKey": path.join(__dirname, 'ssl', 'private.key'),
@@ -34,9 +29,7 @@ const config = {
 
 // if user didn't modifed "PORT" object
 // then read value from "config.json"
-if(PORT === 9001) {
-  PORT = config.port;
-}
+config.port = process.env.PORT = String(PORT);
 if(isUseHTTPs === false) {
   isUseHTTPs = config.isUseHTTPs;
 }
@@ -99,9 +92,6 @@ if (isUseHTTPs) {
 }
 
 RTCMultiConnectionServer.beforeHttpListen(httpApp, config);
-httpApp = httpApp.listen(process.env.PORT || PORT, process.env.IP || "0.0.0.0", function() {
-  RTCMultiConnectionServer.afterHttpListen(httpApp, config);
-});
 
 // --------------------------
 // socket.io codes goes below
@@ -124,4 +114,8 @@ ioServer(httpApp, {
   socket.on(params.socketCustomEvent, function(message) {
     socket.broadcast.emit(params.socketCustomEvent, message);
   });
+});
+
+httpApp = httpApp.listen(process.env.PORT || PORT, function() {
+  RTCMultiConnectionServer.afterHttpListen(httpApp, config);
 });

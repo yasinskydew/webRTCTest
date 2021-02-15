@@ -6,6 +6,10 @@ const path = require('path');
 const http = require("https");
 const app = express();
 app.use(cors());
+app.use((req, res, next) => {
+  res.header('Access-Control-Expose-Headers', '*');
+  next();
+});
 const port = process.env.PORT || 3000;
 const credentials = {
   key: path.join(__dirname, 'ssl', 'private.key'),

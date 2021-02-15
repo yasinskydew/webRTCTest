@@ -7,7 +7,7 @@ const ioServer = require('socket.io');
 const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 
 let PORT = 9001;
-let isUseHTTPs = false;
+let isUseHTTPs = true;
 
 const jsonPath = {
   config: 'config.json',

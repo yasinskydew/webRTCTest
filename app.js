@@ -6,6 +6,7 @@ const path = require('path');
 const http = require("http");
 const app = express();
 app.use(cors());
+app.use(express.static(__dirname + "/public"));
 app.use((req, res, next) => {
   res.header('Access-Control-Expose-Headers', '*');
   next();
